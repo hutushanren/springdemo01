@@ -9,19 +9,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/test")
 public class HelloController {
     @Autowired
     private UserService userService;
 
     @GetMapping("/hello")
     public String hello() {
+        System.out.println("==============");
+        System.out.println("hello world");
         return "Hello World";
     }
 
     @GetMapping(value = "/getUser")
     public User getUser(@RequestParam("name") String name) {
+        System.out.println("==============");
         User user = userService.selectByName(name);
+        System.out.println(user);
         return user;
     }
 

@@ -20,12 +20,10 @@ public class UserServiceImpl implements UserService {
 
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("name", name);
-
         User user = userMapper.selectOne(queryWrapper);
         if (Objects.isNull(user)) {
             throw new RuntimeException("用户不存在");
         }
-
         return user;
     }
 }

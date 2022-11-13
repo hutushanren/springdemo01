@@ -15,10 +15,13 @@ public class AdminUserDetails implements UserDetails {
     private User user;
     private List<Role> roleList;
 
-    public AdminUserDetails() {}
     public AdminUserDetails(User user, List<Role> roleList) {
         this.user = user;
         this.roleList = roleList;
+    }
+
+    public AdminUserDetails() {
+
     }
 
 

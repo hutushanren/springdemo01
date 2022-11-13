@@ -1,10 +1,12 @@
 package com.example.springdemo01.common;
 
+import java.io.Serializable;
+
 /**
  * 通用返回对象
  * @param <T>
  */
-public class CommonResult<T> {
+public class CommonResult<T> implements Serializable {
     /**
      * 状态码
      */

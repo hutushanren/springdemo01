@@ -5,6 +5,7 @@ import com.example.springdemo01.dto.UserLoginParam;
 import com.example.springdemo01.dto.UserRegisterParam;
 import com.example.springdemo01.entity.User;
 import com.example.springdemo01.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/admin")
 public class LoginController {
@@ -58,6 +60,7 @@ public class LoginController {
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
+        log.info("用户登录成功，username:{}", userLoginParam.getUsername());
         return CommonResult.success(tokenMap);
     }
 

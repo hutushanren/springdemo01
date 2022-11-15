@@ -9,6 +9,9 @@ import com.example.springdemo01.service.UserService;
 import com.example.springdemo01.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,6 +57,7 @@ public class UserServiceImpl implements UserService {
         if (userByName != null) {
             return null;
         }
+
         userMapper.insert(user);
         return user;
     }
@@ -62,8 +66,18 @@ public class UserServiceImpl implements UserService {
      * 登录功能
      */
     @Override
-    public String login(UserLoginParam userLoginParam) {
-        return null;
+    public String login (UserLoginParam userLoginParam) {
+        String username = userLoginParam.getUsername();
+        String password = userLoginParam.getPassword();
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+            log.error("密码错误，username:{}", username);
+            return null;
+        }
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        String token = jwtTokenUtil.generateToken(userDetails);
+        return token;
     }
 
     private User getUserFromRegisterParam(UserRegisterParam userRegisterParam) {

@@ -1,11 +1,14 @@
 package com.example.springdemo01.common;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
  * 通用返回对象
  * @param <T>
  */
+@Data
 public class CommonResult<T> implements Serializable {
     /**
      * 状态码

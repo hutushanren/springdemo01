@@ -1,10 +1,12 @@
 package com.example.springdemo01.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.example.springdemo01.dto.AdminUserDetails;
 import com.example.springdemo01.entity.User;
 import com.example.springdemo01.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -15,7 +17,8 @@ public class HelloController {
     private UserService userService;
 
     @GetMapping("/hello")
-    public String hello() {
+    public String hello(@AuthenticationPrincipal AdminUserDetails userDetails) {
+        log.info("登录的用户信息: {}", JSON.toJSONString(userDetails));
         log.info("hello world");
         return "Hello World";
     }

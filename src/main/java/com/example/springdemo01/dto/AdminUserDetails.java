@@ -60,6 +60,6 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return !user.getDeleted();
+        return user.getDeleted() == null || !user.getDeleted();
     }
 }

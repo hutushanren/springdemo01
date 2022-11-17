@@ -7,11 +7,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 
 @Data
 @TableName("role")
-public class Role implements Serializable {
+public class Role implements Serializable, Comparable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
@@ -28,6 +29,11 @@ public class Role implements Serializable {
     @TableField(value = "sort")
     private Integer sort;
 
-    @TableField(value = "启用状态：0->禁用；1->启用")
+    @TableField(value = "state")
     private Boolean state;
+    @Override
+    public int compareTo(Object o) {
+        Role r1 = (Role) o;
+        return r1.sort - this.sort;
+    }
 }

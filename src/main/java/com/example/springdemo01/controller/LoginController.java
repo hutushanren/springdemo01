@@ -3,14 +3,17 @@ package com.example.springdemo01.controller;
 import com.example.springdemo01.common.CommonResult;
 import com.example.springdemo01.dto.UserLoginParam;
 import com.example.springdemo01.dto.UserRegisterParam;
+import com.example.springdemo01.entity.Role;
 import com.example.springdemo01.entity.User;
 import com.example.springdemo01.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -62,6 +65,20 @@ public class LoginController {
         tokenMap.put("tokenHead", tokenHead);
         log.info("用户登录成功，username:{}", userLoginParam.getUsername());
         return CommonResult.success(tokenMap);
+    }
+
+    /**
+     * 获取角色名
+     * @return
+     */
+    @GetMapping("/getRoles")
+    public CommonResult getRoles() {
+        List<Role> allRole = userService.getAllRole();
+        if (CollectionUtils.isEmpty(allRole)) {
+            log.error("获取角色失败");
+            return CommonResult.failed("获取角色失败");
+        }
+        return CommonResult.success(allRole);
     }
 
 

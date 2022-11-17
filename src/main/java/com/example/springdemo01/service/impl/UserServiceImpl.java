@@ -3,7 +3,9 @@ package com.example.springdemo01.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.springdemo01.dto.UserLoginParam;
 import com.example.springdemo01.dto.UserRegisterParam;
+import com.example.springdemo01.entity.Role;
 import com.example.springdemo01.entity.User;
+import com.example.springdemo01.mapper.RoleMapper;
 import com.example.springdemo01.mapper.UserMapper;
 import com.example.springdemo01.service.UserService;
 import com.example.springdemo01.utils.JwtTokenUtil;
@@ -16,7 +18,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -30,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public User selectByName(String name) {
@@ -78,6 +85,16 @@ public class UserServiceImpl implements UserService {
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         String token = jwtTokenUtil.generateToken(userDetails);
         return token;
+    }
+
+    /**
+     * 获取所有角色
+     */
+    @Override
+    public List<Role> getAllRole() {
+        List<Role> roleList = roleMapper.selectList(null);
+        List<Role> result = roleList.stream().sorted().collect(Collectors.toList());
+        return result;
     }
 
     private User getUserFromRegisterParam(UserRegisterParam userRegisterParam) {
